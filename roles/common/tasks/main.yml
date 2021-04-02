@@ -1,0 +1,10 @@
+---
+# This playbook contains common plays that will run on all nodes
+
+- name: Install updates
+  yum:
+          name=*
+          state=latest
+          update_cache=yes
+  when:
+          ansible_os_family == "RedHat"
