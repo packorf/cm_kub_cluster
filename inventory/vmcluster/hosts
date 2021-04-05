@@ -1,8 +1,0 @@
-
-[master]
-centos-vm-01
-
-[worker]
-centos-vm-02
-centos-vm-03
-centos-vm-04
