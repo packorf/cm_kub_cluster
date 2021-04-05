@@ -10,13 +10,8 @@
   shell: swapoff -a
 
 - name: Disable SELINUX
-  shell: setenforce 0
-
-- replace:
-  path: /etc/selinux/config
-  regexp: 'SELINUX=enforcing'
-  replace: 'SELINUX=permissive'
-  backup: no
+  ansible.posix.selinux:
+    state: disabled
 
 - name: Install kubeadm packages
   yum:
@@ -32,10 +27,10 @@
   register: docker_cgroup_driver
 
 - replace:
-  path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
-  regexp: '--cgroup-driver=(systemd|cgroupfs)'
-  replace: '--cgroup-driver={{docker_cgroup_driver.stdout}}'
-  backup: no
+    path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+    regexp: '--cgroup-driver=(systemd|cgroupfs)'
+    replace: '--cgroup-driver={{docker_cgroup_driver.stdout}}'
+    backup: no
 
 - replace:
     path: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
